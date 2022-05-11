@@ -1,29 +1,39 @@
 //第一區塊 內建模組
-const http = require('http');
+const path = require('path');
 
 // 第二個區塊 第三方模組(套件)
+const express = require('express')
+
 //第三區塊 自建模組
-//require 是匯入hello.js檔案
+
 
 
 /////////////////////////////////////////////////////////////
 
-const server = http.createServer((req, res) => {
-	// console.log('第一個參數是瀏覽器對 web server 的 request', req);
-	// console.log('第二個參數是 web 要response 給瀏覽器的內容', res);
-    console.log(req.url);
-    if (req.url === '/') {
-        res.writeHead(200, { 'Content-Type': 'text/html' }); //MIME type
-        return res.end('<h1>This is Home page</h1>');
-    }
+const app = express();
 
-    if (req.url === '/login'){
-        res.writeHead(200, { 'Content-Type': 'text/html' }); //MIME type
-        return res.end('<h1>This is home page</h1>');
-    }
-	res.end();
+//middleware 介於瀏覽器 web server之間
+app.use((req, res, next) => {
+	console.log('Hello!');
+    next();
 });
 
-server.listen(3000, () => {
-	console.log('running server on port 3000');
+app.use((req, res, next) => {
+	console.log('World!');
+    next();
+});
+
+//get是一個路由的請求，在localhost:3000底下
+app.get('/', (req, res) => {
+    // res.writeHead(200, { 'Content-Type': 'text/html' });
+    // res.write('<head><meta charset="utf-8" /></head>')
+    // res.write('<body>')
+    // res.write('<h1>這是首頁</h1>')
+    // res.write('</body>')
+    res.status(200) //把網頁連接到views裡的index.html
+        .sendFile(path.join(__dirname, 'views', 'index.html'));
+});
+
+app.listen(3000, () => {
+	console.log('Web Server is running on port 3000');
 });
