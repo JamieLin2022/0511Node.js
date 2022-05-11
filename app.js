@@ -13,7 +13,8 @@ const server = http.createServer((req, res) => {
 	// console.log('第二個參數是 web 要response 給瀏覽器的內容', res);
     console.log(req.url);
     if (req.url === '/login'){
-        return res.end('This is login page');
+        res.writeHead(200, { 'Content-Type': 'text/html' }); //MIME type
+        return res.end('<h1>This is home page</h1>');
     }
 	res.end();
 });
