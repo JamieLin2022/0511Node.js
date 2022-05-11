@@ -13,7 +13,7 @@ const hello = require('./hello');
 //使用say的方法跟module，從hello.js
 console.log(cowsay.say({
     text : "I'm a moooodule",
-    e : "oO",
+    e : "@@",
     T : "U "
 }));
 
