@@ -11,6 +11,9 @@ const bodyParser = require('body-parser');
 const app = express();
 
 // middleware
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -25,11 +28,14 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => {
     res.status(200)
-        .sendFile(path.join(__dirname, 'views', 'index.html'));
+    // 改成用ejs套件渲染
+    .render('index');
+       
 });
 app.get('/login', (req, res) => {
-    res.status(200)
-        .sendFile(path.join(__dirname, 'views', 'login.html'));
+    res.status(404)
+    .render('login');
+       
 });
 
 app.post('/login', (req, res) => {
@@ -43,7 +49,9 @@ app.post('/login', (req, res) => {
 
 //*是萬用路由，要放在最後面~
 app.get('*', (req, res) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
+    res.status(404)
+    .render('404')
+    
 });
 
 app.listen(3000, () => {
