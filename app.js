@@ -54,6 +54,11 @@ app.post('/login', (req, res) => {
     }
 });
 
+// 轉換網頁到login.ejs
+app.post('/logout', (req, res) =>{
+    res.redirect('/login')
+});
+
 //*是萬用路由，要放在最後面~
 app.get('*', (req, res) => {
     res.status(404)
