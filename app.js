@@ -30,6 +30,7 @@ app.get('/', (req, res) => {
     res.status(200)
     // 改成用ejs套件渲染
     .render('index', {
+        path: '/',
         pageTitle: 'Book Your Books online',
         products: products
     });
@@ -38,6 +39,7 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res) => {
     res.status(200)
     .render('login', {
+        path: '/login',
         pageTitle: 'Login'
     });
        
@@ -56,6 +58,7 @@ app.post('/login', (req, res) => {
 app.get('*', (req, res) => {
     res.status(404)
     .render('404', {
+        path: '*',
         pageTitle: 'Page Not Found'
     });
 });

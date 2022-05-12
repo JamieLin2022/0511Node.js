@@ -3,6 +3,7 @@
 <body>
     <!-- 網頁從html改成ejs檔案 -->
     <!-- 把app.js 裡的pageTitle傳到這裡使用 -->
+    <%- include('./includes/navbar') %>
     <h1><%= pageTitle %> :)</h1>
     <% if (products.length > 0) { %>
         <% products.forEach((product, productIndex) => { %>

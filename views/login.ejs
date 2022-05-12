@@ -2,7 +2,8 @@
 </head>
 <body>
     <!-- 網頁從html改成ejs檔案 -->
-    <h1>Login Books</h1>
+    <%- include('./includes/navbar') %>
+    <h1><%= pageTitle %></h1>
     <form action="/login" method="POST">
         <div>
             <label for="email">Email</label>
