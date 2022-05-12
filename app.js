@@ -29,12 +29,16 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     res.status(200)
     // 改成用ejs套件渲染
-    .render('index');
+    .render('index', {
+        pageTitle: 'Book Your Books online'
+    });
        
 });
 app.get('/login', (req, res) => {
-    res.status(404)
-    .render('login');
+    res.status(200)
+    .render('login', {
+        pageTitle: 'Login'
+    });
        
 });
 
@@ -50,8 +54,9 @@ app.post('/login', (req, res) => {
 //*是萬用路由，要放在最後面~
 app.get('*', (req, res) => {
     res.status(404)
-    .render('404')
-    
+    .render('404', {
+        pageTitle: 'Page Not Found'
+    });
 });
 
 app.listen(3000, () => {
