@@ -12,16 +12,19 @@ const express = require('express')
 
 const app = express();
 
-//middleware 介於瀏覽器 web server之間
-app.use((req, res, next) => {
-	console.log('Hello!');
-    next();
-});
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use((req, res, next) => {
-	console.log('World!');
-    next();
-});
+
+//middleware 介於瀏覽器 web server之間
+// app.use((req, res, next) => {
+// 	console.log('Hello!');
+//     next();
+// });
+
+// app.use((req, res, next) => {
+// 	console.log('World!');
+//     next();
+// });
 
 //get是一個路由的請求，在localhost:3000底下
 app.get('/', (req, res) => {
@@ -32,7 +35,7 @@ app.get('/', (req, res) => {
     // res.write('<h1>這是首頁</h1>')
     // res.write('</body>')
     //express套建模組做法
-    res.status(200) //把網頁連接到views裡的index.html
+    res.status(200) //把網頁連接到views裡的index.html，200代表請求成功
         .sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
