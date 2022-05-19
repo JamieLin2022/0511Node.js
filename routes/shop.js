@@ -1,46 +1,19 @@
-// 第一個區塊 內建模組
-const path = require('path');
-
-// 第二個區塊 第三方模組(套件)
 const express = require('express');
-const bodyParser = require('body-parser');
 
-// 第三個區塊 自建模組
-const authRoutes = require('./routes/auth'); 
-const shopRoutes = require('./routes/shop'); 
-const errorRoutes = require('./routes/404');
-////////////////////////////////////////////////////////////////
-const app = express();
+////////////////////////////////////////////////////////////
 
-// middleware
-app.set('view engine', 'ejs');
-app.set('views', 'views');
+const router = express.Router();
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use((req, res, next) => {
-	console.log('Hello!');
-    next();
-});
-app.use((req, res, next) => {
-	console.log('World!');
-    next();
+router.get('/', (req, res) => {
+    res.status(200)
+        .render('index', {
+            path: '/',
+            pageTitle: 'Book Your Books online',
+            products
+        });
 });
 
-
-
-//用這個代替被轉移到auth.js的東西
-app.use(authRoutes);
-app.use(shopRoutes);
-app.use(errorRoutes);
-
-//*是萬用路由，要放在最後面~
-
-
-app.listen(3000, () => {
-	console.log('Web Server is running on port 3000');
-}); 
+module.exports = router;
 
 const products = [
     {
@@ -61,4 +34,4 @@ const products = [
         description: '在小薰的逼迫之下，公生不得不參加音樂比賽。為了參加比賽，公生從早到晚不停的練習，但就是無法彈奏出屬於自己的巴哈與蕭邦。此時，公生的面前出現兩位強勁的對手-相座武士與井川繪見，他們曾經是公生的手下敗將，一心想在比賽中擊敗公生雪恥。先上台演奏的武士彈奏出令全場喝采的激昂樂章…',
         imageUrl: 'https://im2.book.com.tw/image/getImage?i=https://www.books.com.tw/img/001/062/76/0010627615.jpg&v=5315ab5f&w=348&h=348'
     },
-];
+]; 
