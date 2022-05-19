@@ -11,6 +11,7 @@ const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop'); 
 const errorRoutes = require('./routes/404');
 const Product = require('./models/product');
+const User = require('./models/user');
 ////////////////////////////////////////////////////////////////
 const app = express();
 
@@ -41,6 +42,7 @@ app.use(errorRoutes);
 database
     .sync({ force: true })
 	.then((result) => {
+    User.create({ displayName: 'Admin', email: 'admin@skoob.com', password: '11111111'});
     Product.bulkCreate(products);
 		app.listen(3000, () => {
 			console.log('Web Server is running on port 3000');
