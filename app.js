@@ -6,6 +6,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 // 第三個區塊 自建模組
+const database = require('./utils/database');
 const authRoutes = require('./routes/auth'); 
 const shopRoutes = require('./routes/shop'); 
 const errorRoutes = require('./routes/404');
@@ -36,9 +37,16 @@ app.use(errorRoutes);
 
 //*是萬用路由，要放在最後面~
 
-app.listen(3000, () => {
-	console.log('Web Server is running on port 3000');
-}); 
+database
+	.sync()
+	.then((result) => {
+		app.listen(3000, () => {
+			console.log('Web Server is running on port 3000');
+		});
+	})
+	.catch((err) => {
+		console.log('create web server error: ', err);
+	});
 
 const products = [
     {
