@@ -10,6 +10,7 @@ const database = require('./utils/database');
 const authRoutes = require('./routes/auth'); 
 const shopRoutes = require('./routes/shop'); 
 const errorRoutes = require('./routes/404');
+const Product = require('./models/product');
 ////////////////////////////////////////////////////////////////
 const app = express();
 
@@ -38,8 +39,9 @@ app.use(errorRoutes);
 //*是萬用路由，要放在最後面~
 
 database
-	.sync()
+    .sync({ force: true })
 	.then((result) => {
+    Product.bulkCreate(products);
 		app.listen(3000, () => {
 			console.log('Web Server is running on port 3000');
 		});
