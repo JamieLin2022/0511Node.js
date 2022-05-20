@@ -20,6 +20,7 @@ const postLogin = (req, res) => {
             }
             if (user.password === password) {
                 console.log('login: 成功');
+                req.session.isLogin = true;
                 return res.redirect('/')
             } 
             console.log('login: 找不到此 user 或密碼錯誤');
@@ -31,8 +32,9 @@ const postLogin = (req, res) => {
 };
 
 const postLogout = (req, res) => {
-    // TODO: 實作 logout 機制
-    res.redirect('/login')
+    req.session.destroy((err) => {
+        res.redirect('/login')
+    });
 }
 module.exports = {
     getLogin,

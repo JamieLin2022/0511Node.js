@@ -15,10 +15,11 @@
             <a class="nav-link <%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
           </li>
         </ul>
-        <!-- submit的action是logout,method 是post,會連接到app.js app.post裡 -->
-        <form class="d-flex" action="/logout" method="POST">
-          <button class="btn btn-outline-success" type="submit">Logout</button>
-        </form>
+        <% if(isLogin ) { %>        
+          <form class="d-flex" action="/logout" method="POST">
+            <button class="btn btn-outline-success" type="submit">Logout</button>
+          </form>
+        <% } %>
       </div>
     </div>
   </nav>
