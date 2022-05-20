@@ -10,6 +10,12 @@ const getLogin = (req, res) => {
             errorMessage
         });
 };
+const getSignup = (req, res) => {
+    res.status(200)
+        .render('auth/signup', {
+            pageTitle: 'Signup'
+        });
+}
 
 const postLogin = (req, res) => {
     const { email, password } = req.body;
@@ -39,6 +45,7 @@ const postLogout = (req, res) => {
 }
 module.exports = {
     getLogin,
+    getSignup,
     postLogin,
     postLogout,
 };
