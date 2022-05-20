@@ -1,3 +1,5 @@
+const bcryptjs = require('bcryptjs');
+
 const User = require('../models/user');
 
 ////////////////////////////////////////////////////////////////
@@ -48,7 +50,14 @@ const postSignup = (req, res) => {
                 req.flash('errorMessage', '此帳號已存在！請使用其他 Email。')
                 return res.redirect('/signup');
             } else {
-                return User.create({ displayName, email, password });            }
+                return bcryptjs.hash(password, 12)
+                    .then((hashedPassword) => {
+                        return User.create({ displayName, email, password: hashedPassword });
+                    })
+                    .catch((err) => {
+                        console.log('create new user error: ', err);
+                    })
+                            }
         })
         .then((result) => {
             res.redirect('/login');
