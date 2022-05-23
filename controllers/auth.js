@@ -12,6 +12,7 @@ const getLogin = (req, res) => {
             errorMessage
         });
 };
+
 const getSignup = (req, res) => {
     const errorMessage = req.flash('errorMessage')[0];
     res.status(200)
@@ -31,23 +32,23 @@ const postLogin = (req, res) => {
                 return res.redirect('/login');
             }
             bcryptjs
-            .compare(password, user.password)
-            .then((isMatch) => {
-                console.log('isMatch', isMatch);
-                if (isMatch) {
-                    req.session.user = user;
-                    req.session.isLogin = true;
-                    return req.session.save((err) => {
-                        console.log('postLogin - save session error: ', err);
-                        res.redirect('/');
-                    });
-                }
-                req.flash('errorMessage', '錯誤的 Email 或 Password。')
-                res.redirect('/login');
-            })
-            .catch((err) => {
-                return res.redirect('/login');
-            })
+                .compare(password, user.password)
+                .then((isMatch) => {
+                    console.log('isMatch', isMatch);
+                    if (isMatch) {
+                        req.session.user = user;
+                        req.session.isLogin = true;
+                        return req.session.save((err) => {
+                            console.log('postLogin - save session error: ', err);
+                            res.redirect('/');
+                        });
+                    }
+                    req.flash('errorMessage', '錯誤的 Email 或 Password。')
+                    res.redirect('/login');
+                })
+                .catch((err) => {
+                    return res.redirect('/login');
+                })
         })
         .catch((err) => {
             console.log('login error:', err);
@@ -64,12 +65,19 @@ const postSignup = (req, res) => {
             } else {
                 return bcryptjs.hash(password, 12)
                     .then((hashedPassword) => {
-                        return User.create({ displayName, email, password: hashedPassword });
+                        return User
+                            .create({ displayName, email, password: hashedPassword })
+                            .then((newUser) => {
+                                return newUser.createCart();
+                            })
+                            .catch((err) => {
+                                console.log('postSignup - newUser.carateCart error: ', err);
+                            });
                     })
                     .catch((err) => {
                         console.log('create new user error: ', err);
                     })
-                            }
+            }
         })
         .then((result) => {
             res.redirect('/login');
@@ -77,13 +85,14 @@ const postSignup = (req, res) => {
         .catch((err) => {
             console.log('signup_error', err);
         });
-}
+};
 
 const postLogout = (req, res) => {
     req.session.destroy((err) => {
         res.redirect('/login')
     });
-}
+};
+
 module.exports = {
     getLogin,
     getSignup,
