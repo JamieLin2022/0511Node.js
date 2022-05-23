@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+
 ////////////////////////////////////////////////////////////////
 
 const getIndex = (req, res) => {
@@ -14,6 +15,26 @@ const getIndex = (req, res) => {
         })
 };
 
+const getCart = (req, res) => {
+    req.user
+        .getCart()
+        .then((cart) => {
+            return cart.getProducts()
+                .then((products) => {
+                    res.render('shop/cart', {
+                        products
+                    });
+                })
+                .catch((err) => {
+                    console.log('getCart - cart.getProducts error: ', err);
+                })
+        })
+        .catch((err) => {
+            console.log('getCart - user.getCart error', err);
+        })
+}
+
 module.exports = {
-    getIndex
-} 
+    getIndex,
+    getCart,
+}
